@@ -1,128 +1,221 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Maousufa Hello Kitty House</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Younus Scientific Calculator</title>
 <style>
-body {
-  margin: 0;
-  background: #ffd6eb;
-  font-family: Arial, sans-serif;
-  overflow: hidden;
-}
+    /* Body & Background */
+    body {
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(to right, #141E30, #243B55);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+        color: #fff;
+    }
 
-#game {
-  width: 100vw;
-  height: 100vh;
-  position: relative;
-  background: #fff0f6;
-}
+    /* Calculator Container */
+    .calculator {
+        background: rgba(0,0,0,0.8);
+        border-radius: 15px;
+        padding: 20px;
+        width: 320px;
+        box-shadow: 0 0 20px #0ff;
+    }
 
-#kitty {
-  width: 50px;
-  height: 50px;
-  position: absolute;
-  left: 150px;
-  top: 250px;
-  font-size: 40px;
-}
+    /* Display */
+    .display {
+        background: rgba(255,255,255,0.1);
+        border-radius: 10px;
+        padding: 15px;
+        font-size: 24px;
+        text-align: right;
+        margin-bottom: 10px;
+        min-height: 50px;
+        word-wrap: break-word;
+    }
 
-.door {
-  width: 60px;
-  height: 80px;
-  position: absolute;
-  background: #ff9acb;
-  border-radius: 10px;
-  text-align: center;
-  line-height: 80px;
-  font-size: 12px;
-  color: #fff;
-}
+    /* Button Grid */
+    .buttons {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+    }
 
-#controls {
-  position: fixed;
-  bottom: 10px;
-  width: 100%;
-  text-align: center;
-}
+    button {
+        padding: 15px;
+        font-size: 18px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.2s;
+        background: linear-gradient(to bottom, #0ff, #08f);
+        color: #000;
+        font-weight: bold;
+        box-shadow: 0 0 5px #0ff;
+    }
 
-.control-btn {
-  font-size: 24px;
-  padding: 10px 16px;
-  margin: 4px;
-  border-radius: 50%;
-  border: none;
-  background: #ff69b4;
-  color: white;
-}
+    button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px #0ff;
+    }
 
-#roomName {
-  position: absolute;
-  top: 10px;
-  width: 100%;
-  text-align: center;
-  font-size: 20px;
-  color: #ff4fa3;
-}
+    button:active {
+        transform: scale(0.95);
+        box-shadow: 0 0 5px #08f;
+    }
+
+    /* Help Modal */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.9);
+        justify-content: center;
+        align-items: center;
+        text-align: left;
+        padding: 20px;
+        overflow-y: auto;
+    }
+
+    .modal-content {
+        background: #111;
+        border-radius: 15px;
+        padding: 20px;
+        max-width: 400px;
+        color: #0ff;
+    }
+
+    .close-btn {
+        background: red;
+        color: #fff;
+        padding: 5px 10px;
+        float: right;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 10px;
+    }
+
+    .title {
+        text-align: center;
+        font-size: 22px;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    @media (max-width: 360px) {
+        .calculator { width: 95%; }
+        button { padding: 12px; font-size: 16px; }
+    }
 </style>
 </head>
-
 <body>
 
-<div id="game">
-  <div id="roomName">🏠 Living Room</div>
+<div class="calculator">
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+        <button onclick="clearDisplay()">C</button>
+        <button onclick="deleteChar()">DEL</button>
+        <button onclick="appendToDisplay('(')">(</button>
+        <button onclick="appendToDisplay(')')">)</button>
+        <button onclick="appendToDisplay('%')">%</button>
 
-  <div id="kitty">🐱</div>
+        <button onclick="appendToDisplay('7')">7</button>
+        <button onclick="appendToDisplay('8')">8</button>
+        <button onclick="appendToDisplay('9')">9</button>
+        <button onclick="appendToDisplay('/')">÷</button>
+        <button onclick="appendToDisplay('Math.sqrt(')">√</button>
 
-  <!-- Doors -->
-  <div class="door" style="left:20px;top:100px" onclick="goRoom('Bedroom')">Bed</div>
-  <div class="door" style="right:20px;top:100px" onclick="goRoom('Bathroom')">Bath</div>
-  <div class="door" style="left:20px;bottom:150px" onclick="goRoom('Kitchen')">Kit</div>
+        <button onclick="appendToDisplay('4')">4</button>
+        <button onclick="appendToDisplay('5')">5</button>
+        <button onclick="appendToDisplay('6')">6</button>
+        <button onclick="appendToDisplay('*')">×</button>
+        <button onclick="appendToDisplay('Math.pow(')">x² / x³</button>
+
+        <button onclick="appendToDisplay('1')">1</button>
+        <button onclick="appendToDisplay('2')">2</button>
+        <button onclick="appendToDisplay('3')">3</button>
+        <button onclick="appendToDisplay('-')">−</button>
+        <button onclick="appendToDisplay('Math.PI')">π</button>
+
+        <button onclick="appendToDisplay('0')">0</button>
+        <button onclick="appendToDisplay('.')">.</button>
+        <button onclick="appendToDisplay('+')">+</button>
+        <button onclick="appendToDisplay('Math.sin(')">sin</button>
+        <button onclick="appendToDisplay('Math.cos(')">cos</button>
+
+        <button onclick="appendToDisplay('Math.tan(')">tan</button>
+        <button onclick="appendToDisplay('Math.log10(')">log</button>
+        <button onclick="appendToDisplay('Math.log(')">ln</button>
+        <button onclick="appendToDisplay('Math.E')">e</button>
+        <button onclick="calculateResult()">=</button>
+    </div>
+    <button style="margin-top:10px;width:100%;background:#0f0;color:#000;font-weight:bold;" onclick="openGuide()">❓ Help / Guide</button>
 </div>
 
-<div id="controls">
-  <button class="control-btn" onclick="move(0,-20)">⬆</button><br>
-  <button class="control-btn" onclick="move(-20,0)">⬅</button>
-  <button class="control-btn" onclick="move(20,0)">➡</button><br>
-  <button class="control-btn" onclick="move(0,20)">⬇</button>
+<!-- Guide Modal -->
+<div class="modal" id="guideModal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeGuide()">X</span>
+        <div class="title">Younus Scientific Calculator Guide</div>
+        <p><strong>Basic Operations:</strong> +, −, ×, ÷</p>
+        <p><strong>sin(x), cos(x), tan(x):</strong> Trigonometric functions in degrees.</p>
+        <p><strong>log(x):</strong> Base-10 logarithm. Example: log(100)=2</p>
+        <p><strong>ln(x):</strong> Natural logarithm (base e)</p>
+        <p><strong>√:</strong> Square root. Example: √25 = 5</p>
+        <p><strong>x² / x³:</strong> Power function. Example: Math.pow(5,2) = 25</p>
+        <p><strong>π:</strong> Pi constant ≈ 3.14159</p>
+        <p><strong>e:</strong> Euler number ≈ 2.718</p>
+        <p><strong>( ):</strong> Use parentheses for order of operations.</p>
+        <p><strong>%:</strong> Percentage.</p>
+        <p><strong>DEL:</strong> Delete last character.</p>
+        <p><strong>C:</strong> Clear display.</p>
+        <p><strong>=:</strong> Calculate result.</p>
+        <p>All functions work offline and are mobile-optimized!</p>
+    </div>
 </div>
 
 <script>
-let kitty = document.getElementById("kitty");
-let roomName = document.getElementById("roomName");
+    const display = document.getElementById('display');
 
-let x = 150;
-let y = 250;
+    function appendToDisplay(value) {
+        if(display.innerText === "0") display.innerText = "";
+        display.innerText += value;
+    }
 
-function move(dx, dy) {
-  x += dx;
-  y += dy;
+    function clearDisplay() {
+        display.innerText = "0";
+    }
 
-  x = Math.max(0, Math.min(window.innerWidth - 50, x));
-  y = Math.max(50, Math.min(window.innerHeight - 120, y));
+    function deleteChar() {
+        display.innerText = display.innerText.slice(0,-1);
+        if(display.innerText === "") display.innerText = "0";
+    }
 
-  kitty.style.left = x + "px";
-  kitty.style.top = y + "px";
-}
+    function calculateResult() {
+        try {
+            // Replace × ÷ symbols with JS operators
+            let expression = display.innerText.replace(/×/g,'*').replace(/÷/g,'/');
+            // Evaluate expression
+            let result = eval(expression);
+            display.innerText = result;
+        } catch(e) {
+            display.innerText = "Error";
+        }
+    }
 
-function goRoom(room) {
-  roomName.innerText = "🏠 " + room;
-  x = 150;
-  y = 250;
-  kitty.style.left = x + "px";
-  kitty.style.top = y + "px";
+    function openGuide() {
+        document.getElementById('guideModal').style.display = 'flex';
+    }
 
-  if (room === "Bedroom") {
-    document.getElementById("game").style.background = "#ffe4f2";
-  }
-  if (room === "Bathroom") {
-    document.getElementById("game").style.background = "#e0f7ff";
-  }
-  if (room === "Kitchen") {
-    document.getElementById("game").style.background = "#fff3d6";
-  }
-}
+    function closeGuide() {
+        document.getElementById('guideModal').style.display = 'none';
+    }
 </script>
 
 </body>
