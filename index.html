@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Maousufa Hello Kitty House</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+  margin: 0;
+  font-family: "Comic Sans MS", cursive;
+  background: linear-gradient(#ffd6eb, #fff);
+  text-align: center;
+}
+h1 {
+  color: #ff4fa3;
+}
+#menu, .room {
+  display: none;
+}
+button {
+  background: #ff69b4;
+  border: none;
+  padding: 12px 18px;
+  margin: 8px;
+  border-radius: 20px;
+  color: white;
+  font-size: 16px;
+}
+button:hover {
+  background: #ff4fa3;
+}
+.room {
+  padding: 15px;
+}
+img {
+  max-width: 90%;
+}
+.footer {
+  margin-top: 20px;
+  font-size: 12px;
+  color: #777;
+}
+.cat {
+  font-size: 60px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🎂 Happy Birthday Maousufa 💖</h1>
+<p>Welcome to Hello Kitty’s Dream House!</p>
+
+<div id="menu">
+  <button onclick="openRoom('bedroom')">🛏 Bedroom</button>
+  <button onclick="openRoom('bathroom')">🛁 Bathroom</button>
+  <button onclick="openRoom('kitchen')">🍰 Kitchen</button>
+  <button onclick="openRoom('dining')">🍽 Dining Room</button>
+  <button onclick="openRoom('sitting')">🛋 Sitting Room</button>
+  <button onclick="openRoom('dress')">👗 Dress-Up Room</button>
+  <button onclick="openRoom('garden')">🌸 Garden</button>
+</div>
+
+<!-- BEDROOM -->
+<div id="bedroom" class="room">
+  <h2>🛏 Hello Kitty Bedroom</h2>
+  <p>So cozy and pink!</p>
+  <button onclick="back()">⬅ Back</button>
+</div>
+
+<!-- BATHROOM -->
+<div id="bathroom" class="room">
+  <h2>🛁 Bathroom</h2>
+  <p>Bubble bath time 🫧</p>
+  <button onclick="back()">⬅ Back</button>
+</div>
+
+<!-- KITCHEN -->
+<div id="kitchen" class="room">
+  <h2>🍰 Kitchen</h2>
+  <p>Let’s bake cupcakes!</p>
+  <button onclick="back()">⬅ Back</button>
+</div>
+
+<!-- DINING -->
+<div id="dining" class="room">
+  <h2>🍽 Dining Room</h2>
+  <p>Yummy food for Kitty 😋</p>
+  <button onclick="back()">⬅ Back</button>
+</div>
+
+<!-- SITTING -->
+<div id="sitting" class="room">
+  <h2>🛋 Sitting Room</h2>
+  <p>Relax and watch cartoons 📺</p>
+  <button onclick="back()">⬅ Back</button>
+</div>
+
+<!-- DRESS UP -->
+<div id="dress" class="room">
+  <h2>👗 Dress-Up Room</h2>
+  <p>Choose Kitty’s outfit!</p>
+  <button onclick="alert('Kitty loves this dress 💖')">🎀 Pink Dress</button>
+  <button onclick="alert('So cute 🥰')">🌸 Flower Dress</button>
+  <button onclick="back()">⬅ Back</button>
+</div>
+
+<!-- GARDEN -->
+<div id="garden" class="room">
+  <h2>🌸 Garden</h2>
+  <p>Play with the pet cat!</p>
+  <div class="cat">🐱</div>
+  <button onclick="alert('Meow! Kitty is happy 💕')">Pet the Cat</button>
+  <button onclick="back()">⬅ Back</button>
+</div>
+
+<div class="footer">
+  Made with love 💖 by <b>Younus Rahmatullah</b>
+</div>
+
+<script>
+function openRoom(id) {
+  document.getElementById("menu").style.display = "none";
+  document.querySelectorAll(".room").forEach(r => r.style.display = "none");
+  document.getElementById(id).style.display = "block";
+}
+
+function back() {
+  document.querySelectorAll(".room").forEach(r => r.style.display = "none");
+  document.getElementById("menu").style.display = "block";
+}
+
+document.getElementById("menu").style.display = "block";
+</script>
+
+</body>
+</html>
