@@ -2,220 +2,174 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>Badminton Game | Made by Younus Rahmatullah</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Younus Scientific Calculator</title>
+
 <style>
-    /* Body & Background */
-    body {
-        margin: 0;
-        font-family: 'Arial', sans-serif;
-        background: linear-gradient(to right, #141E30, #243B55);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        flex-direction: column;
-        color: #fff;
-    }
+body {
+    margin: 0;
+    background: linear-gradient(#7ec8ff, #ffffff);
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
 
-    /* Calculator Container */
-    .calculator {
-        background: rgba(0,0,0,0.8);
-        border-radius: 15px;
-        padding: 20px;
-        width: 320px;
-        box-shadow: 0 0 20px #0ff;
-    }
+h2 {
+    margin: 8px;
+}
 
-    /* Display */
-    .display {
-        background: rgba(255,255,255,0.1);
-        border-radius: 10px;
-        padding: 15px;
-        font-size: 24px;
-        text-align: right;
-        margin-bottom: 10px;
-        min-height: 50px;
-        word-wrap: break-word;
-    }
+canvas {
+    background: #2ecc71;
+    display: block;
+    margin: auto;
+    border: 4px solid white;
+    border-radius: 12px;
+}
 
-    /* Button Grid */
-    .buttons {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 10px;
-    }
-
-    button {
-        padding: 15px;
-        font-size: 18px;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: 0.2s;
-        background: linear-gradient(to bottom, #0ff, #08f);
-        color: #000;
-        font-weight: bold;
-        box-shadow: 0 0 5px #0ff;
-    }
-
-    button:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 15px #0ff;
-    }
-
-    button:active {
-        transform: scale(0.95);
-        box-shadow: 0 0 5px #08f;
-    }
-
-    /* Help Modal */
-    .modal {
-        display: none;
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: rgba(0,0,0,0.9);
-        justify-content: center;
-        align-items: center;
-        text-align: left;
-        padding: 20px;
-        overflow-y: auto;
-    }
-
-    .modal-content {
-        background: #111;
-        border-radius: 15px;
-        padding: 20px;
-        max-width: 400px;
-        color: #0ff;
-    }
-
-    .close-btn {
-        background: red;
-        color: #fff;
-        padding: 5px 10px;
-        float: right;
-        border-radius: 5px;
-        cursor: pointer;
-        margin-bottom: 10px;
-    }
-
-    .title {
-        text-align: center;
-        font-size: 22px;
-        margin-bottom: 10px;
-        font-weight: bold;
-    }
-
-    @media (max-width: 360px) {
-        .calculator { width: 95%; }
-        button { padding: 12px; font-size: 16px; }
-    }
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    background: #222;
+    color: white;
+}
 </style>
 </head>
+
 <body>
 
-<div class="calculator">
-    <div class="display" id="display">0</div>
-    <div class="buttons">
-        <button onclick="clearDisplay()">C</button>
-        <button onclick="deleteChar()">DEL</button>
-        <button onclick="appendToDisplay('(')">(</button>
-        <button onclick="appendToDisplay(')')">)</button>
-        <button onclick="appendToDisplay('%')">%</button>
+<h2>🏸 Badminton Game</h2>
+<p>2 Players • Mobile Friendly • Made by Younus</p>
 
-        <button onclick="appendToDisplay('7')">7</button>
-        <button onclick="appendToDisplay('8')">8</button>
-        <button onclick="appendToDisplay('9')">9</button>
-        <button onclick="appendToDisplay('/')">÷</button>
-        <button onclick="appendToDisplay('Math.sqrt(')">√</button>
+<button onclick="toggleMusic()">🎵 Music ON / OFF</button>
 
-        <button onclick="appendToDisplay('4')">4</button>
-        <button onclick="appendToDisplay('5')">5</button>
-        <button onclick="appendToDisplay('6')">6</button>
-        <button onclick="appendToDisplay('*')">×</button>
-        <button onclick="appendToDisplay('Math.pow(')">x² / x³</button>
+<canvas id="game" width="360" height="520"></canvas>
 
-        <button onclick="appendToDisplay('1')">1</button>
-        <button onclick="appendToDisplay('2')">2</button>
-        <button onclick="appendToDisplay('3')">3</button>
-        <button onclick="appendToDisplay('-')">−</button>
-        <button onclick="appendToDisplay('Math.PI')">π</button>
+<audio id="hitSound">
+  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_39cfc5f6fa.mp3">
+</audio>
 
-        <button onclick="appendToDisplay('0')">0</button>
-        <button onclick="appendToDisplay('.')">.</button>
-        <button onclick="appendToDisplay('+')">+</button>
-        <button onclick="appendToDisplay('Math.sin(')">sin</button>
-        <button onclick="appendToDisplay('Math.cos(')">cos</button>
-
-        <button onclick="appendToDisplay('Math.tan(')">tan</button>
-        <button onclick="appendToDisplay('Math.log10(')">log</button>
-        <button onclick="appendToDisplay('Math.log(')">ln</button>
-        <button onclick="appendToDisplay('Math.E')">e</button>
-        <button onclick="calculateResult()">=</button>
-    </div>
-    <button style="margin-top:10px;width:100%;background:#0f0;color:#000;font-weight:bold;" onclick="openGuide()">❓ Help / Guide</button>
-</div>
-
-<!-- Guide Modal -->
-<div class="modal" id="guideModal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeGuide()">X</span>
-        <div class="title">Younus Scientific Calculator Guide</div>
-        <p><strong>Basic Operations:</strong> +, −, ×, ÷</p>
-        <p><strong>sin(x), cos(x), tan(x):</strong> Trigonometric functions in degrees.</p>
-        <p><strong>log(x):</strong> Base-10 logarithm. Example: log(100)=2</p>
-        <p><strong>ln(x):</strong> Natural logarithm (base e)</p>
-        <p><strong>√:</strong> Square root. Example: √25 = 5</p>
-        <p><strong>x² / x³:</strong> Power function. Example: Math.pow(5,2) = 25</p>
-        <p><strong>π:</strong> Pi constant ≈ 3.14159</p>
-        <p><strong>e:</strong> Euler number ≈ 2.718</p>
-        <p><strong>( ):</strong> Use parentheses for order of operations.</p>
-        <p><strong>%:</strong> Percentage.</p>
-        <p><strong>DEL:</strong> Delete last character.</p>
-        <p><strong>C:</strong> Clear display.</p>
-        <p><strong>=:</strong> Calculate result.</p>
-        <p>All functions work offline and are mobile-optimized!</p>
-    </div>
-</div>
+<audio id="bgMusic" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/10/25/audio_946b8f1f6a.mp3">
+</audio>
 
 <script>
-    const display = document.getElementById('display');
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
 
-    function appendToDisplay(value) {
-        if(display.innerText === "0") display.innerText = "";
-        display.innerText += value;
+const hitSound = document.getElementById("hitSound");
+const bgMusic = document.getElementById("bgMusic");
+
+let musicOn = false;
+
+function toggleMusic() {
+    if (!musicOn) {
+        bgMusic.play();
+        musicOn = true;
+    } else {
+        bgMusic.pause();
+        musicOn = false;
+    }
+}
+
+// Players
+let p1 = { x: 140, y: 480, w: 80, h: 10, score: 0 };
+let p2 = { x: 140, y: 30,  w: 80, h: 10, score: 0 };
+
+// Shuttle
+let shuttle = {
+    x: 180,
+    y: 260,
+    r: 7,
+    dx: 2,
+    dy: 3
+};
+
+// Touch control (Player 1)
+canvas.addEventListener("touchmove", e => {
+    let rect = canvas.getBoundingClientRect();
+    p1.x = e.touches[0].clientX - rect.left - p1.w / 2;
+});
+
+// Draw
+function drawPlayer(p) {
+    ctx.fillStyle = "white";
+    ctx.fillRect(p.x, p.y, p.w, p.h);
+}
+
+function drawShuttle() {
+    ctx.beginPath();
+    ctx.arc(shuttle.x, shuttle.y, shuttle.r, 0, Math.PI * 2);
+    ctx.fillStyle = "yellow";
+    ctx.fill();
+}
+
+// Collision
+function hit(p) {
+    return (
+        shuttle.x > p.x &&
+        shuttle.x < p.x + p.w &&
+        shuttle.y + shuttle.r > p.y &&
+        shuttle.y - shuttle.r < p.y + p.h
+    );
+}
+
+// AI movement
+function aiMove() {
+    p2.x += (shuttle.x - (p2.x + p2.w / 2)) * 0.05;
+}
+
+// Update
+function update() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    drawPlayer(p1);
+    drawPlayer(p2);
+    drawShuttle();
+
+    shuttle.x += shuttle.dx;
+    shuttle.y += shuttle.dy;
+
+    aiMove();
+
+    if (shuttle.x < 0 || shuttle.x > canvas.width) shuttle.dx *= -1;
+
+    if (hit(p1)) {
+        shuttle.dy = -Math.abs(shuttle.dy);
+        hitSound.play();
     }
 
-    function clearDisplay() {
-        display.innerText = "0";
+    if (hit(p2)) {
+        shuttle.dy = Math.abs(shuttle.dy);
+        hitSound.play();
     }
 
-    function deleteChar() {
-        display.innerText = display.innerText.slice(0,-1);
-        if(display.innerText === "") display.innerText = "0";
+    if (shuttle.y > canvas.height) {
+        p2.score++;
+        reset();
     }
 
-    function calculateResult() {
-        try {
-            // Replace × ÷ symbols with JS operators
-            let expression = display.innerText.replace(/×/g,'*').replace(/÷/g,'/');
-            // Evaluate expression
-            let result = eval(expression);
-            display.innerText = result;
-        } catch(e) {
-            display.innerText = "Error";
-        }
+    if (shuttle.y < 0) {
+        p1.score++;
+        reset();
     }
 
-    function openGuide() {
-        document.getElementById('guideModal').style.display = 'flex';
-    }
+    ctx.fillStyle = "black";
+    ctx.font = "16px Arial";
+    ctx.fillText("Player: " + p1.score, 10, 20);
+    ctx.fillText("Opponent: " + p2.score, 230, 20);
 
-    function closeGuide() {
-        document.getElementById('guideModal').style.display = 'none';
-    }
+    requestAnimationFrame(update);
+}
+
+function reset() {
+    shuttle.x = 180;
+    shuttle.y = 260;
+    shuttle.dy *= -1;
+}
+
+update();
 </script>
 
 </body>
